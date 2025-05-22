@@ -42,13 +42,13 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
+  @Get(':username')
   @ApiOperation({
-    summary: 'Get user by ID',
-    description: 'Get user details by their ID',
+    summary: 'Get user by username',
+    description: 'Get user details by their username',
   })
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  findOne(@Param('username') username: string) {
+    return this.usersService.findUsername(username);
   }
 
   @Patch(':id')
