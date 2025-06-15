@@ -12,13 +12,16 @@ export class ProductsService {
     private productsRepository: Repository<Product>,
   ) {}
 
-  create(createProductDto: CreateProductDto) {
-    const product = this.productsRepository.create(createProductDto);
+  create(createProductDto: CreateProductDto, username: string) {
+    const product = this.productsRepository.create({
+      ...createProductDto,
+      created_user: username,
+    });
     return this.productsRepository.save(product);
   }
 
   findAll() {
-    return 'todos';
+    return this.productsRepository.find();
   }
 
   findOne(id: number) {
