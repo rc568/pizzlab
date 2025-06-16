@@ -4,12 +4,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { ProductsModule } from './products/products.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProductsMiddleware } from './products/products.middleware';
 import { ProductsController } from './products/products.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { OrderModule } from './order/order.module';
+import { OrderController } from './order/order.controller';
+import { AuthMiddleware } from './auth/auth.middleware';
 
 @Module({
   imports: [
@@ -40,6 +41,8 @@ import { OrderModule } from './order/order.module';
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ProductsMiddleware).forRoutes(ProductsController);
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes(ProductsController, OrderController);
   }
 }
