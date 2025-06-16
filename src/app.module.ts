@@ -7,6 +7,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsMiddleware } from './products/products.middleware';
 import { ProductsController } from './products/products.controller';
 import { JwtModule } from '@nestjs/jwt';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -22,9 +25,15 @@ import { JwtModule } from '@nestjs/jwt';
       autoLoadEntities: true,
       synchronize: true, // TODO: Solo en desarrollo
     }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: true,
+      playground: true,
+    }),
     AuthModule,
     ProductsModule,
     JwtModule,
+    OrderModule,
   ],
   controllers: [],
   providers: [],
